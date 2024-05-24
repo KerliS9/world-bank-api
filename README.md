@@ -4,6 +4,10 @@
 
 This repository aims to show a data search project in an API, treating the data in columnar format and storing it in a table.
 
+## Start this project
+
+Run $ pip install -r requirements.txt
+
 ### Challenge Description
 
 The objective of this test is to develop a data ingestion pipeline using Python, which will:
