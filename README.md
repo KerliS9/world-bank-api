@@ -4,9 +4,23 @@
 
 This repository aims to show a data search project in an API, treating the data in columnar format and storing it in a table.
 
+## Requirements for this project
+- git
+- python
+- docker-compose
+
+- docker pull postgres
+
 ## Start this project
 
 Run $ pip install -r requirements.txt
+
+Set your file .env, for user and password
+Like:
+POSTGRES_USER=name
+POSTGRES_PASSWORD=password
+
+Run $ docker-compose up -d
 
 ### Challenge Description
 
