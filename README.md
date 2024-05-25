@@ -9,16 +9,16 @@ This repository aims to show a data search project in an API, treating the data 
 - python
 - docker-compose
 
-- docker pull postgres
-
 ## Start this project
 
-Run $ pip install -r requirements.txt
-
-Set your file .env, for user and password
-Like:
-POSTGRES_USER=name
-POSTGRES_PASSWORD=password
+Set your file .env file, like this:
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=world_bank_api
+PGADMIN_DEFAULT_EMAIL=admin@admin.com
+PGADMIN_DEFAULT_PASSWORD=admin
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
 
 Run $ docker-compose up -d
 

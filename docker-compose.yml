@@ -1,21 +1,37 @@
 version: '3'
 
+networks:
+  demo:
+
 services:
-  postgres_db:
+  db:
     image: postgres:latest
     container_name: Postgres
     restart: always
     volumes:
-      #- ./01-country.sql:/docker-entrypoint-initdb.d/01-country.sql
-      #- ./02-gdp.sql:/docker-entrypoint-initdb.d/02-gdp.sql
-      #- ~/apps/postgres:/var/lib/postgresql/data
       - postgres_db:/var/lib/postgresql/data
+      - ./init_db:/docker-entrypoint-initdb.d
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=world_bank_api
+      POSTGRES_USER: ${POSTGRES_USER} # postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # postgres
+      POSTGRES_DB: ${POSTGRES_DB} # world_bank_api
     ports:
       - "5432:5432"
+    networks:
+      - demo
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL} # admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD} # admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - demo
+
 volumes:
   postgres_db:
-    driver: local
