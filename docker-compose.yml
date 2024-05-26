@@ -1,37 +1,19 @@
 version: '3'
-# https://www.youtube.com/watch?v=Pox10kU7d2c
-networks:
-  demo:
 
 services:
   db:
     image: postgres:latest
-    container_name: Postgres
+    container_name: db
     restart: always
     volumes:
-      - postgres_db:/var/lib/postgresql/data
+      - data_db:/var/lib/postgresql/data
       - ./src/init_db:/docker-entrypoint-initdb.d
     environment:
-      POSTGRES_USER: ${POSTGRES_USER} # postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # postgres
-      POSTGRES_DB: ${POSTGRES_DB} # world_bank_api
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
-    networks:
-      - demo
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL} # admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD} # admin
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
-    networks:
-      - demo
 
   web:
     image: python:3.8
@@ -42,18 +24,16 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/src
-    # ports:
-      # - "5000:5000"
-    # environment:
-      # - POSTGRES_USER: ${POSTGRES_USER}
-      # - POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      # - POSTGRES_DB: ${POSTGRES_DB}
-      # - POSTGRES_HOST: ${POSTGRES_HOST}
-      # - POSTGRES_PORT: ${POSTGRES_PORT}
+    ports:
+      - "5000:5000"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
     depends_on:
       - db
-    networks:
-      - demo
 
 volumes:
-  postgres_db:
+  data_db:
