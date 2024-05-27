@@ -24,6 +24,10 @@ Set your file .env file, like this:
 
 Run $ docker-compose up -d
 
+Run $ curl -X POST http://localhost:5000/insert
+
+Then open the browser with `http://localhost:5000/data`
+
 ### Challenge Description
 
 The objective of this test is to develop a data ingestion pipeline using Python, which will:
