@@ -22,8 +22,8 @@ def get_data():
     response = requests.get(url)
     response_data = response.json()[1]
     data.extend(response_data)
-  print(len(data))
-  print(data[799])
+  #print(len(data))
+  #print(data[799])
   return data
 
-get_data()
+# get_data()
