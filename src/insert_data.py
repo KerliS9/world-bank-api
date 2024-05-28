@@ -3,7 +3,7 @@ import psycopg2
 #import os
 #from dotenv import load_dotenv
 from get_api import get_data
-from utils import get_db_connection, cur_fetchone, cur_fetchall, insert_into, database_exists
+from utils import get_db_connection, cur_fetchone, cur_fetchall, insert_into, cur_fetchall_data
 
 #load_dotenv()
 
@@ -46,6 +46,7 @@ def get_tables():
 def insert_data():
     response_data = get_data()
     print("response_data[0]:", response_data[0])
+    #{'indicator': {'id': 'NY.GDP.MKTP.CD', 'value': 'GDP (current US$)'}, 'country': {'id': 'AR', 'value': 'Argentina'}, 'countryiso3code': 'ARG', 'date': '2023', 'value': None, 'unit': '', 'obs_status': '', 'decimal': 0}
     insert_query = """
     INSERT INTO rw_economic_data (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -77,10 +78,8 @@ def insert_data():
 def get_data():
     select_query = "SELECT * FROM rw_economic_data;"
     try:
-        rows = cur_fetchall(select_query)
-        #columns = [desc[0] for desc in cur.description]
-        #results = [dict(zip(columns, row)) for row in rows]
-        return jsonify(rows), 200
+        data = cur_fetchall_data(select_query)
+        return jsonify(data), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

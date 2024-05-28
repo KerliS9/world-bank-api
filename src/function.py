@@ -48,7 +48,7 @@ def insert_data():
         'obs_status': '',
         'decimal': 0
     }
-    
+
     insert_query = """
     INSERT INTO rw_economic_data (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)

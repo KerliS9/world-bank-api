@@ -60,6 +60,16 @@ def cur_fetchall(select_query):
     return tables
 
 
+def cur_fetchall_data(select_query):
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(select_query)
+            rows = cur.fetchall()
+            columns = [desc[0] for desc in cur.description]
+            results = [dict(zip(columns, row)) for row in rows]
+    return results
+
+
 def insert_into(insert_query, data_to_insert):
       with get_db_connection() as conn:
           with conn.cursor() as cur:
