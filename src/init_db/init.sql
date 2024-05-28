@@ -1,5 +1,5 @@
 
-CREATE SCHEMA world_bank_api
+-- CREATE SCHEMA world_bank_api
 
 CREATE TABLE rw_economic_data (
     indicator_id VARCHAR(50),

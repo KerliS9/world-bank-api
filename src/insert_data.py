@@ -1,11 +1,8 @@
 from flask import Flask, jsonify
 import psycopg2
-#import os
-#from dotenv import load_dotenv
 from get_api import get_data
-from utils import get_db_connection, cur_fetchone, cur_fetchall, insert_into, cur_fetchall_data
+from utils import get_db_connection, cur_fetchone, cur_fetchall, insert_into
 
-#load_dotenv()
 
 app = Flask(__name__)
 
@@ -14,7 +11,6 @@ app = Flask(__name__)
 def index():
     query = 'SELECT version();'
     return cur_fetchone(query)
-
 
 
 @app.route('/databases', methods=['GET'])
@@ -51,34 +47,46 @@ def insert_data():
     INSERT INTO rw_economic_data (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-    try:
-        with get_db_connection() as conn:
-            with conn.cursor() as cur:
-                for data in response_data:
-                    indicator_id = data['indicator']['id']
-                    indicator_value = data['indicator']['value']
-                    country_id = data['country']['id']
-                    country_value = data['country']['value']
-                    countryiso3code = data['countryiso3code']
-                    date = data['date']
-                    value = data['value']
-                    unit = data['unit']
-                    obs_status = data['obs_status']
-                    decimal = data['decimal']
+    for data in response_data:
+        indicator_id = data['indicator']['id']
+        indicator_value = data['indicator']['value']
+        country_id = data['country']['id']
+        country_value = data['country']['value']
+        countryiso3code = data['countryiso3code']
+        date = data['date']
+        value = data['value']
+        unit = data['unit']
+        obs_status = data['obs_status']
+        decimal = data['decimal']
+        print(indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)
+    #try:
+    #    with get_db_connection() as conn:
+    #        with conn.cursor() as cur:
+    #            for data in response_data:
+    #                indicator_id = data['indicator']['id']
+    #                indicator_value = data['indicator']['value']
+    #                country_id = data['country']['id']
+    #                country_value = data['country']['value']
+    #                countryiso3code = data['countryiso3code']
+    #                date = data['date']
+    #                value = data['value']
+    #               unit = data['unit']
+    #              obs_status = data['obs_status']
+    #                decimal = data['decimal']
 
-                    cur.execute(insert_query, (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal))
-            conn.commit()
-            return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    #                cur.execute(insert_query, (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal))
+    #        conn.commit()
+    #        return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
+    #except Exception as e:
+    #    return jsonify({'error': str(e)}), 500
 
-#insert_data()
+insert_data()
 
 @app.route('/data', methods=['GET'])
 def get_data():
     select_query = "SELECT * FROM rw_economic_data;"
     try:
-        data = cur_fetchall_data(select_query)
+        data = cur_fetchall(select_query)
         return jsonify(data), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
