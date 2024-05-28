@@ -1,7 +1,7 @@
 def insert_data():
-    data = get_data()
-    print(data[0])
-    for item in data:
+    response_data = get_data()
+    print("response_data[0]:", response_data[0])
+    for item in response_data:
       insert_query = """
       INSERT INTO rw_economic_data (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)
       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -35,15 +35,40 @@ def insert_data():
           return jsonify({'error': str(e)}), 500
 
 
-def get_data():
-    select_query = "SELECT * FROM rw_economic_data"
+def insert_data():
+    response_data = get_data()
+    print("response_data[0]:", response_data[0])
+    data = {
+        'indicator': {'id': 'NY.GDP.MKTP.CD', 'value': 'GDP (current US$)'},
+        'country': {'id': 'AR', 'value': 'Argentina'},
+        'countryiso3code': 'ARG',
+        'date': '1989',
+        'value': 76629657863.6557,
+        'unit': '',
+        'obs_status': '',
+        'decimal': 0
+    }
+    
+    insert_query = """
+    INSERT INTO rw_economic_data (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    
+    data_to_insert = (
+        data['indicator']['id'],
+        data['indicator']['value'],
+        data['country']['id'],
+        data['country']['value'],
+        data['countryiso3code'],
+        data['date'],
+        data['value'],
+        data['unit'],
+        data['obs_status'],
+        data['decimal']
+    )
+    
     try:
-        with get_db_connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute(select_query)
-                rows = cur.fetchall()
-                columns = [desc[0] for desc in cur.description]
-                results = [dict(zip(columns, row)) for row in rows]
-        return jsonify(results), 200
+        insert_into(insert_query, data_to_insert)
+        return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
