@@ -15,4 +15,5 @@ EXPOSE 5000
 
 # Run app.py when the container launches
 # CMD ["python", "./src/get_api.py"]
-CMD ["python", "./src/insert_data.py"]
+#CMD ["python", "./src/insert_data.py"]
+CMD ["flask", "run", "--host=0.0.0.0"]
