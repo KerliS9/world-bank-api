@@ -72,25 +72,3 @@ def delete_data_from_table(table_name):
             print(f"All data deleted successfully {table_name}.")
     except Exception as e:
         print(f"An error occurred: {e}")
-
-
-def create_table():
-    create_table_query = """
-    CREATE TABLE IF NOT EXISTS rw_economic_data (
-        indicator_id VARCHAR(50),
-        indicator_value VARCHAR(255),
-        country_id VARCHAR(5),
-        country_value VARCHAR(100),
-        countryiso3code VARCHAR(5),
-        date VARCHAR(10),
-        value NUMERIC,
-        unit VARCHAR(50),
-        obs_status VARCHAR(50),
-        decimal INTEGER
-    );
-    """
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute(create_table_query)
-    cur.close()
-    conn.close()
