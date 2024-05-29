@@ -22,7 +22,7 @@ def get_data():
       response = requests.get(url)
       response.raise_for_status()
       response_data = response.json()[1]
-      print('data', page, response_data[0])
+      #print('data', page, response_data[0])
       data.extend(response_data)
   return data
 

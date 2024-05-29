@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 import psycopg2
 from get_api import get_data
-from utils import get_db_connection, cur_fetchone, cur_fetchall, insert_into, delete_data_from_table
+from utils import get_db_connection, cur_fetchone, cur_fetchall, delete_data_from_table
 
 
 app = Flask(__name__)
@@ -42,7 +42,7 @@ def get_tables():
 def insert_data():
     with app.app_context():
         response_data = get_data()
-        print("response_data[0]:", response_data[0])
+        #print("response_data[0]:", response_data[0])
         insert_query = """
         INSERT INTO rw_economic_data (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -69,8 +69,6 @@ def insert_data():
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-#insert_data()
-
 
 @app.route('/rw_economic_data', methods=['GET'])
 def get_data():
@@ -84,6 +82,5 @@ def get_data():
 
 if __name__ == '__main__':
     table_name = 'rw_economic_data'
-    #delete_data_from_table(table_name)
-    #insert_data()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    delete_data_from_table(table_name)
+    app.run(debug=True)

@@ -62,14 +62,6 @@ def cur_fetchall(select_query):
     return results
 
 
-def insert_into(insert_query, data_to_insert):
-      with get_db_connection() as conn:
-          with conn.cursor() as cur:
-              cur.execute(insert_query, data_to_insert)
-              conn.commit()
-      # return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
-
-
 def delete_data_from_table(table_name):
     delete_query = f"DELETE FROM {table_name};"
     try:
@@ -77,7 +69,7 @@ def delete_data_from_table(table_name):
             with conn.cursor() as cur:
                 cur.execute(delete_query)
             conn.commit()
-            print("All data deleted successfully.")
+            print(f"All data deleted successfully {table_name}.")
     except Exception as e:
         print(f"An error occurred: {e}")
 
