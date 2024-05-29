@@ -29,7 +29,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      FLASK_APP: ./src/insert_data.py
+      FLASK_APP: ./src/flask_routes.py
       FLASK_DEBUG: 1
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

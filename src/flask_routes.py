@@ -40,6 +40,8 @@ def get_tables():
 
 @app.route('/insert', methods=['POST'])
 def insert_data():
+    table_name = 'rw_economic_data'
+    delete_data_from_table(table_name)
     with app.app_context():
         response_data = get_data()
         #print("response_data[0]:", response_data[0])
@@ -80,7 +82,18 @@ def get_data():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/rw_economic_data/count', methods=['GET'])
+def count_data():
+    select_query = "SELECT count(*) FROM rw_economic_data;"
+    #13984 linhas - pode estar duplicado
+    try:
+        data = cur_fetchall(select_query)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 if __name__ == '__main__':
-    table_name = 'rw_economic_data'
-    delete_data_from_table(table_name)
+    #table_name = 'rw_economic_data'
+    #delete_data_from_table(table_name)
     app.run(debug=True)
