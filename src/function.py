@@ -72,3 +72,16 @@ def insert_data():
         return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+for data in response_data:
+        indicator_id = data['indicator']['id']
+        indicator_value = data['indicator']['value']
+        country_id = data['country']['id']
+        country_value = data['country']['value']
+        countryiso3code = data['countryiso3code']
+        date = data['date']
+        value = data['value']
+        unit = data['unit']
+        obs_status = data['obs_status']
+        decimal = data['decimal']
+        print(indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)

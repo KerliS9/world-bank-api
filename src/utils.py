@@ -70,6 +70,18 @@ def insert_into(insert_query, data_to_insert):
       # return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
 
 
+def delete_data_from_table(table_name):
+    delete_query = f"DELETE FROM {table_name};"
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(delete_query)
+            conn.commit()
+            print("All data deleted successfully.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
 def create_table():
     create_table_query = """
     CREATE TABLE IF NOT EXISTS rw_economic_data (
