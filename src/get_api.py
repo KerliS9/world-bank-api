@@ -24,5 +24,3 @@ def get_data():
       response_data = response.json()[1]
       data.extend(response_data)
   return data
-
-#get_data()

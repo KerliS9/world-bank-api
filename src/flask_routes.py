@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 import psycopg2
 from get_api import get_data
-from utils import get_db_connection, cur_fetchone, cur_fetchall, delete_data_from_table
+from utils import cur_fetchone, cur_fetchall
 from insert_data import insert_raw_data, insert_country_data, insert_gdp_data
 
 

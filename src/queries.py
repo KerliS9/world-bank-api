@@ -9,7 +9,6 @@ def change_table_schema(table_name, old_schema, new_schema):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-#change_table_schema('rw_economic_data', 'world_bank_api', 'public')
 
 create_rw_economic_data = """
     CREATE TABLE IF NOT EXISTS rw_economic_data (
