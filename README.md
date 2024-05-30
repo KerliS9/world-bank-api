@@ -26,13 +26,22 @@ Set your file .env file, like this:
 
 Run $ `docker-compose up --build -d`
 
-Then open the browser with `http://localhost:5000/`
+Then open the browser with `http://localhost:5000/insert`
+
+The message bellow will appear:
+
+```
+{
+  "message": "Dados inseridos com sucesso!"
+}
+```
 
 ### Routes to see the data
 
 - `http://localhost:5000/tables` - show tables in database
-- `http://localhost:5000/rw_economic_data` - show all the from API
+- `http://localhost:5000/rw_economic_data` - show all data from API
 - `http://localhost:5000/rw_economic_data/count` - show number of lines in table rw_economic_data
+- `http://localhost:5000/country` - show data from table country
 
 ### Challenge Description
 
