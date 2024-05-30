@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository aims to show a data search project in an API, treating the data in columnar format and storing it in a table.
+This repository aims to show a data search project in an API, treating the data in columnar format and storing it in to tables.
 
 ## Requirements for this project
 - git
@@ -11,16 +11,28 @@ This repository aims to show a data search project in an API, treating the data 
 
 ## Start this project
 
-Set your file .env file, like this:
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=world_bank_api
-PGADMIN_DEFAULT_EMAIL=admin@admin.com
-PGADMIN_DEFAULT_PASSWORD=admin
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
+Clone this repoh $ `git clone git@github.com:KerliS9/world-bank-api.git`
 
-Run $ docker-compose up -d
+Set your file .env file, like this:
+```
+  POSTGRES_USER=postgres
+  POSTGRES_PASSWORD=postgres
+  POSTGRES_DB=world_bank_api
+  PGADMIN_DEFAULT_EMAIL=admin@admin.com
+  PGADMIN_DEFAULT_PASSWORD=admin
+  POSTGRES_HOST=db
+  POSTGRES_PORT=5432
+```
+
+Run $ `docker-compose up --build -d`
+
+Then open the browser with `http://localhost:5000/`
+
+### Routes to see the data
+
+- `http://localhost:5000/tables` - show tables in database
+- `http://localhost:5000/rw_economic_data` - show all the from API
+- `http://localhost:5000/rw_economic_data/count` - show number of lines in table rw_economic_data
 
 ### Challenge Description
 

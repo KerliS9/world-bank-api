@@ -11,10 +11,9 @@ COPY . /src
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make port 5000 available to the world outside this container
-# EXPOSE 5000
-
-# Define environment variable
-# ENV NAME World
+EXPOSE 5000
 
 # Run app.py when the container launches
-CMD ["python", "./src/get_api.py"]
+# CMD ["python", "./src/get_api.py"]
+#CMD ["python", "./src/insert_data.py"]
+CMD ["flask", "run", "--host=0.0.0.0"]
