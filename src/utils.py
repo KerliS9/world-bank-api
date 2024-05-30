@@ -68,7 +68,7 @@ def delete_data_from_table(table_name):
             with conn.cursor() as cur:
                 cur.execute(delete_query)
             conn.commit()
-            print(f"All data deleted successfully {table_name}.")
+            print(f"All data deleted successfully: {table_name}.")
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -80,7 +80,7 @@ def drop_table(table_name):
             with conn.cursor() as cur:
                 cur.execute(delete_query)
             conn.commit()
-            print(f"Table dropped successfully {table_name}.")
+            print(f"Table dropped successfully: {table_name}.")
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -91,6 +91,6 @@ def create_table(query):
             with conn.cursor() as cur:
                 cur.execute(query)
             conn.commit()
-            print(f"Table created successfully {table_name}.")
+            print(f"Table created successfully: {table_name}.")
     except Exception as e:
         print(f"An error occurred: {e}")
