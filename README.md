@@ -15,7 +15,7 @@ This repository aims to show a data search project in an API, treating the data 
 
 Clone this repoh $ `git clone git@github.com:KerliS9/world-bank-api.git`
 
-Set your file .env file, like this:
+Set your file `.env` file, like this:
 ```
   POSTGRES_USER=postgres
   POSTGRES_PASSWORD=postgres
@@ -34,8 +34,8 @@ world-bank-api/
 │   ├── queries.py
 │   └── utils.py
 │   │
-│   ├── init_db/
-│   │   └── init.py
+│   └── init_db/
+│      └── init.py
 │
 ├── docker-compose.yml
 ├── Dockerfile
@@ -44,27 +44,27 @@ world-bank-api/
 └── .env
 
 ```
-Run $ `docker-compose up --build -d` - wait the building to finished
+Run $ `docker-compose up --build -d`. Wait the building to finished.
 
 Then open the browser with `http://localhost:5000/insert`
 
-Wait the message bellow will appear:
+Wait until the message bellow appear:
 
 ```
 {
-  "message": "Dados inseridos com sucesso!"
+  "message": "Successfully inserted data!"
 }
 ```
 Great! Now you can see the data in the routes below.
 
-### Routes to see the data
+### Data routes:
 
-- `http://localhost:5000/tables` - show tables in database
-- `http://localhost:5000/rw_economic_data` - show all data from API
-- `http://localhost:5000/rw_economic_data/count` - show number of lines in table rw_economic_data
-- `http://localhost:5000/country` - show data from table country
-- `http://localhost:5000/gdp` - show data from table gdp
-- `http://localhost:5000/pivoted` - show pivoted data, like bellow
+- `http://localhost:5000/tables` - shows all the tables in the database
+- `http://localhost:5000/rw_economic_data` - shows all the data from the API
+- `http://localhost:5000/rw_economic_data/count` - shows the amount of lines in the rw_economic_data table
+- `http://localhost:5000/country` - shows the data from the country table
+- `http://localhost:5000/gdp` - shows the data from the gdp table
+- `http://localhost:5000/pivoted` - shows pivoted data, like below
 
 ```
 {
@@ -86,16 +86,16 @@ Great! Now you can see the data in the routes below.
 * The use of Apache Airflow for process automation is optional, but will be considered a differential.
 
 
-### Decisions
+### Decisions made
 
-At first I start to configurate Postgres with PgAdmin, but it was to heavy for my notebook to process. So I change to Flask to present the data inside de tables, because it's easier to load and manage.
+At first I tried to configure Postgres with PgAdmin, but the workload was too heavy for my notebook to run. So I changed the way to present the data inside the tables to Flask, because it's lightweight, easier to load and manage.
 
-I had some difficulty to configure the docker-compose file, because it was my first experience doing it all alone.
+For the data extraction, I chose to bring all the data from the API into a raw table, and locally manage the data. Because this way the code connects to the API only one time, and not everytime a new table is created.
 
-# Technologies
+# Used technologies:
 
 - Git
 - Docker-compose
 - Python
-- SQL
+- PostgreSQL
 - Python framework - Flask
