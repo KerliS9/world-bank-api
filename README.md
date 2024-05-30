@@ -79,13 +79,6 @@ Great! Now you can see the data in the routes below.
 },
 ```
 
-### Technical Requirements
-
-* Implement the solution in a Docker environment, using Docker Compose to orchestrate the necessary services.
-* Use only pure Python or SQL for data manipulation, without frameworks or libraries based on dataframes (such as Pandas, Polars, etc.). Utility and database access libraries are allowed.
-* The use of Apache Airflow for process automation is optional, but will be considered a differential.
-
-
 ### Decisions made
 
 At first I tried to configure Postgres with PgAdmin, but the workload was too heavy for my notebook to run. So I changed the way to present the data inside the tables to Flask, because it's lightweight, easier to load and manage.
