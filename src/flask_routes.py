@@ -10,7 +10,11 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     query = 'SELECT version();'
-    return cur_fetchone(query)
+    try:
+        databases = cur_fetchone(query)
+        return jsonify(databases), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/databases', methods=['GET'])
@@ -20,7 +24,7 @@ def show_databases():
         databases = cur_fetchall(select_query)
         return jsonify(databases), 200
     except Exception as e:
-        print(f"An error occurred: {e}")
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/tables', methods=['GET'])
@@ -44,7 +48,6 @@ def insert_data():
     delete_data_from_table(table_name)
     with app.app_context():
         response_data = get_data()
-        #print("response_data[0]:", response_data[0])
         insert_query = """
         INSERT INTO rw_economic_data (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -85,7 +88,6 @@ def get_data():
 @app.route('/rw_economic_data/count', methods=['GET'])
 def count_data():
     select_query = "SELECT count(*) FROM rw_economic_data;"
-    #13984 linhas - pode estar duplicado
     try:
         data = cur_fetchall(select_query)
         return jsonify(data), 200
@@ -94,6 +96,4 @@ def count_data():
 
 
 if __name__ == '__main__':
-    #table_name = 'rw_economic_data'
-    #delete_data_from_table(table_name)
     app.run(debug=True)

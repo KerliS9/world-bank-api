@@ -43,13 +43,11 @@ create_database(os.getenv('POSTGRES_DB'))
 
 
 def cur_fetchone(query):
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute('SELECT version();')
-    db_version = cur.fetchone()
-    cur.close()
-    conn.close()
-    return jsonify(db_version)
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(query)
+            db_version = cur.fetchone()
+    return db_version
 
 
 def cur_fetchall(select_query):
