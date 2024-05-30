@@ -15,13 +15,14 @@ CREATE TABLE rw_economic_data (
 );
 
 CREATE TABLE country (
-    id SERIAL PRIMARY KEY,
+    id VARCHAR PRIMARY KEY,
     name VARCHAR(50),
     iso3_code VARCHAR(50)
 );
 
 CREATE TABLE gdp (
-    country_id INTEGER REFERENCES country (id),
+    id VARCHAR PRIMARY KEY,
+    country_id VARCHAR(50),
     year INTEGER,
     value VARCHAR(50)
 );

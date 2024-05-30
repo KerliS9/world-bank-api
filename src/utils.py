@@ -3,6 +3,7 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from flask import jsonify
 import os
 from dotenv import load_dotenv
+from queries import create_country, create_gdp
 
 
 load_dotenv()
@@ -70,3 +71,29 @@ def delete_data_from_table(table_name):
             print(f"All data deleted successfully {table_name}.")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+
+def drop_table(table_name):
+    delete_query = f"DROP TABLE {table_name};"
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(delete_query)
+            conn.commit()
+            print(f"Table dropped successfully {table_name}.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+def create_table(query):
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query)
+            conn.commit()
+            print(f"Table created successfully {table_name}.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+#drop_table("gdp")
+#create_table(create_gdp)

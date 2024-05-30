@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 import psycopg2
 from get_api import get_data
 from utils import get_db_connection, cur_fetchone, cur_fetchall, delete_data_from_table
+from insert_data import insert_raw_data, insert_country_data, insert_gdp_data
 
 
 app = Flask(__name__)
@@ -42,41 +43,21 @@ def get_tables():
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/insert', methods=['POST'])
+@app.route('/insert', methods=['GET'])
 def insert_data():
-    table_name = 'rw_economic_data'
-    delete_data_from_table(table_name)
     with app.app_context():
-        response_data = get_data()
-        insert_query = """
-        INSERT INTO rw_economic_data (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """
-
         try:
-            with get_db_connection() as conn:
-                with conn.cursor() as cur:
-                    for data in response_data:
-                        indicator_id = data['indicator']['id']
-                        indicator_value = data['indicator']['value']
-                        country_id = data['country']['id']
-                        country_value = data['country']['value']
-                        countryiso3code = data['countryiso3code']
-                        date = data['date']
-                        value = data['value']
-                        unit = data['unit']
-                        obs_status = data['obs_status']
-                        decimal = data['decimal']
-
-                        cur.execute(insert_query, (indicator_id, indicator_value, country_id, country_value, countryiso3code, date, value, unit, obs_status, decimal))
-                conn.commit()
-                return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
+            response_data = get_data()
+            insert_raw_data(response_data)
+            insert_country_data()
+            insert_gdp_data()
+            return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
 
 @app.route('/rw_economic_data', methods=['GET'])
-def get_data():
+def get_raw_data():
     select_query = "SELECT * FROM rw_economic_data;"
     try:
         data = cur_fetchall(select_query)
@@ -88,6 +69,52 @@ def get_data():
 @app.route('/rw_economic_data/count', methods=['GET'])
 def count_data():
     select_query = "SELECT count(*) FROM rw_economic_data;"
+    try:
+        data = cur_fetchall(select_query)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/country', methods=['GET'])
+def get_country_data():
+    select_query = "SELECT * FROM country;"
+    try:
+        data = cur_fetchall(select_query)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gdp', methods=['GET'])
+def get_gdp_data():
+    select_query = "SELECT * FROM gdp;"
+    try:
+        data = cur_fetchall(select_query)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/pivoted', methods=['GET'])
+def get_pivoted_data():
+    select_query = """
+      CREATE EXTENSION IF NOT EXISTS tablefunc;
+      SELECT C.id, C.name, C.iso3_code, P."2019", P."2020", P."2021", P."2022", P."2023"
+      FROM country C
+      LEFT JOIN (
+          SELECT *
+          FROM crosstab(
+              $$
+              SELECT country_id, year, value
+              FROM gdp
+              WHERE year >= '2019'
+              ORDER BY country_id, year
+              $$
+          ) AS ct(country_id VARCHAR, "2019" VARCHAR, "2020" VARCHAR, "2021" VARCHAR, "2022" VARCHAR, "2023" VARCHAR)
+      ) AS P
+      ON C.id = P.country_id;
+"""
     try:
         data = cur_fetchall(select_query)
         return jsonify(data), 200
