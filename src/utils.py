@@ -74,7 +74,7 @@ def delete_data_from_table(table_name):
 
 
 def drop_table(table_name):
-    delete_query = f"DROP TABLE {table_name};" # CASCADE
+    delete_query = f"DROP TABLE {table_name};"
     try:
         with get_db_connection() as conn:
             with conn.cursor() as cur:
@@ -95,4 +95,5 @@ def create_table(query):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+#drop_table("gdp")
 #create_table(create_gdp)

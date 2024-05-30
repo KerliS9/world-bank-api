@@ -36,7 +36,8 @@ create_country = """
 
 create_gdp = """
     CREATE TABLE gdp (
-        country_id VARCHAR REFERENCES country (id),
+        id VARCHAR PRIMARY KEY,
+        country_id VARCHAR(50),
         year INTEGER,
         value VARCHAR(50)
     );

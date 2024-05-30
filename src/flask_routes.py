@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 import psycopg2
 from get_api import get_data
 from utils import get_db_connection, cur_fetchone, cur_fetchall, delete_data_from_table
-from insert_data import insert_raw_data, insert_country_data
+from insert_data import insert_raw_data, insert_country_data, insert_gdp_data
 
 
 app = Flask(__name__)
@@ -50,6 +50,7 @@ def insert_data():
             response_data = get_data()
             insert_raw_data(response_data)
             insert_country_data()
+            insert_gdp_data()
             return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
         except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -83,6 +84,27 @@ def get_country_data():
         return jsonify(data), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/gdp', methods=['GET'])
+def get_gdp_data():
+    select_query = "SELECT * FROM gdp;"
+    try:
+        data = cur_fetchall(select_query)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/pivoted', methods=['GET'])
+def get_pivoted_data():
+    select_query = "SELECT C.*, RW.date, RW.value FROM country C LEFT JOIN rw_economic_data AS RW ON C.id = RW.country_id WHERE date >= '2019';"
+    try:
+        data = cur_fetchall(select_query)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -19,3 +19,10 @@ CREATE TABLE country (
     name VARCHAR(50),
     iso3_code VARCHAR(50)
 );
+
+CREATE TABLE gdp (
+    id VARCHAR PRIMARY KEY,
+    country_id VARCHAR(50),
+    year INTEGER,
+    value VARCHAR(50)
+);
