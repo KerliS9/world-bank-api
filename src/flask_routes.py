@@ -51,7 +51,7 @@ def insert_data():
             insert_raw_data(response_data)
             insert_country_data()
             insert_gdp_data()
-            return jsonify({'message': 'Dados inseridos com sucesso!'}), 201
+            return jsonify({'message': 'Successfully inserted data!'}), 201
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
