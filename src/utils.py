@@ -94,6 +94,3 @@ def create_table(query):
             print(f"Table created successfully {table_name}.")
     except Exception as e:
         print(f"An error occurred: {e}")
-
-#drop_table("gdp")
-#create_table(create_gdp)
