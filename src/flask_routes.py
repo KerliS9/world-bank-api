@@ -98,7 +98,23 @@ def get_gdp_data():
 
 @app.route('/pivoted', methods=['GET'])
 def get_pivoted_data():
-    select_query = "SELECT C.*, RW.date, RW.value FROM country C LEFT JOIN rw_economic_data AS RW ON C.id = RW.country_id WHERE date >= '2019';"
+    select_query = """
+      CREATE EXTENSION IF NOT EXISTS tablefunc;
+      SELECT C.id, C.name, C.iso3_code, P."2019", P."2020", P."2021", P."2022", P."2023"
+      FROM country C
+      LEFT JOIN (
+          SELECT *
+          FROM crosstab(
+              $$
+              SELECT country_id, year, value
+              FROM gdp
+              WHERE year >= '2019'
+              ORDER BY country_id, year
+              $$
+          ) AS ct(country_id VARCHAR, "2019" VARCHAR, "2020" VARCHAR, "2021" VARCHAR, "2022" VARCHAR, "2023" VARCHAR)
+      ) AS P
+      ON C.id = P.country_id;
+"""
     try:
         data = cur_fetchall(select_query)
         return jsonify(data), 200
