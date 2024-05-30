@@ -4,6 +4,8 @@
 
 This repository aims to show a data search project in an API, treating the data in columnar format and storing it in to tables.
 
+* API: `https://api.worldbank.org/v2/country/ARG;BOL;BRA;CHL;COL;ECU;GUY;PRY;PER;SUR;URY;VEN/indicator/NY.GDP.MKTP.CD?format=json&page=1&per_page=50`
+
 ## Requirements for this project
 - git
 - python
@@ -42,6 +44,12 @@ The message bellow will appear:
 - `http://localhost:5000/rw_economic_data` - show all data from API
 - `http://localhost:5000/rw_economic_data/count` - show number of lines in table rw_economic_data
 - `http://localhost:5000/country` - show data from table country
+- `http://localhost:5000/gdp` - show data from table gdp
+- `http://localhost:5000/pivoted` - show pivoted data
+
+    | id | name     | iso3_code | 2019 | 2020 | 2021 | 2022 | 2023 |
+    |----|----------|-----------|------|------|------|------|------|
+
 
 ### Challenge Description
 
@@ -79,3 +87,7 @@ The objective of this test is to develop a data ingestion pipeline using Python,
 * Strict adherence to the provided instructions and requirements.
 
 We hope you find this challenge stimulating and informative. Should you have any questions or need further information, please do not hesitate to contact us.
+
+### Decisions
+
+I decided use Flask to present the data inside de tables, because it's easy to load and manage.
